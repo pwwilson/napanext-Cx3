@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 const TYPE_META = {
@@ -29,18 +29,35 @@ export default function TypePage(){
   const [targetName, setTargetName] = useState('')
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState('')
+  const [popup, setPopup] = useState({ show: false, msg: '', kind: '' })
+  const popupTimer = useRef(null)
+
+  const showPopup = (msg, kind = 'info', timeout = 3000) => {
+    if(popupTimer.current) { clearTimeout(popupTimer.current); popupTimer.current = null }
+    setPopup({ show: true, msg, kind })
+    if(timeout) popupTimer.current = setTimeout(()=> setPopup({ show:false, msg:'', kind:'' }), timeout)
+  }
+
+  useEffect(()=>{
+    return ()=>{ if(popupTimer.current){ clearTimeout(popupTimer.current); popupTimer.current = null } }
+  },[])
 
   if(!type) return <div className="container">Loading…</div>
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
+    showPopup('Sending…', 'info', 0)
     const body = { type, message }
     if(type === 'compliments') body.targetName = targetName
 
     const res = await fetch('/api/entries', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify(body) })
     if(res.ok){ setStatus('sent'); setMessage(''); setTargetName('') }
     else { setStatus('error') }
+    try{
+      if(res.ok){ showPopup('Sent — thanks!', 'success', 3000) }
+      else { showPopup('Could not send — try again', 'error', 5000) }
+    }catch(e){ showPopup('Network error', 'error', 5000) }
   }
 
   return (
@@ -59,7 +76,11 @@ export default function TypePage(){
         <label>Message</label>
         <textarea rows={5} value={message} onChange={(e)=>setMessage(e.target.value)} placeholder={type==='captions'?'Your caption':'Write your message...'} />
         <button type="submit">{meta.submit || 'Send'}</button>
-        <p className="mono">{status}</p>
+        {popup.show && (
+          <div role="status" aria-live="polite" className={`response-popup response-popup--${popup.kind}`}>
+            {popup.msg}
+          </div>
+        )}
       </form>
     </div>
   )

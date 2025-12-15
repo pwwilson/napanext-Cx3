@@ -83,8 +83,8 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .feed-empty{color:var(--muted);opacity:0.9;padding:20px;text-align:center}
 
 /* Fullscreen button */
-.fs-btn{background:rgba(255,255,255,0.04);color:var(--white);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:10px;cursor:pointer;position:absolute;top:12px;right:12px;z-index:80;display:flex;align-items:center;justify-content:center}
-.fs-btn svg{display:block}
+.fs-btn{background:rgba(255,255,255,0.04);color:var(--white);border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:999px;cursor:pointer;position:absolute;top:12px;right:12px;z-index:80;display:flex;align-items:center;justify-content:center;width:48px;height:48px;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
+.fs-btn svg{display:block;width:20px;height:20px}
 .fs-btn:active{transform:translateY(1px)}
 /* hide the visible button when fullscreen is active */
 .fs-btn[aria-pressed="true"]{display:none}
@@ -99,9 +99,9 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-webkit-full-screen,
 .container:-moz-full-screen,
 .container:-ms-fullscreen {
-  /* default fullscreen: keep moderate padding; is overridden for landscape below */
-  padding: 12px;
-  margin: 12px auto;
+  /* default fullscreen: keep more generous padding so content doesn't hug edges */
+  padding: 36px;
+  margin: 24px auto;
   max-width: 1200px;
   box-sizing: border-box;
 }
@@ -110,8 +110,8 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-webkit-full-screen .feed-list,
 .container:-moz-full-screen .feed-list,
 .container:-ms-fullscreen .feed-list {
-  /* leave space for header/meta and comfortable gaps */
-  max-height: calc(100vh - 96px);
+  /* leave more space for header/meta and comfortable gaps */
+  max-height: calc(100vh - 160px);
 }
 
 /* In landscape browsers, make fullscreen match the non-fullscreen container spacing */
@@ -120,7 +120,7 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
   .container:-webkit-full-screen,
   .container:-moz-full-screen,
   .container:-ms-fullscreen {
-    padding: 20px;
+    padding: 48px;
     margin: 40px auto;
     max-width: 960px;
   }
@@ -129,12 +129,40 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
   .container:-webkit-full-screen .feed-list,
   .container:-moz-full-screen .feed-list,
   .container:-ms-fullscreen .feed-list {
-    max-height: calc(100vh - 140px);
+    max-height: calc(100vh - 200px);
   }
+}
+
+/* When a container is fullscreen, ensure form controls keep comfortable spacing */
+.container:fullscreen input,
+.container:-webkit-full-screen input,
+.container:-moz-full-screen input,
+.container:-ms-fullscreen input,
+.container:fullscreen textarea,
+.container:-webkit-full-screen textarea,
+.container:-moz-full-screen textarea,
+.container:-ms-fullscreen textarea {
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 12px;
+  font-size: 18px;
 }
 
 
 @media (max-width:520px){
   .site-header .logo{height:68px}
 }
+
+/* Response popup (tiny toast anchored near the send button) */
+.response-popup{position:absolute;right:16px;bottom:16px;transform:translateY(0);background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));color:var(--white);padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 6px 18px rgba(2,6,23,0.6);z-index:60;min-width:160px;text-align:center;font-weight:600}
+.response-popup--success{background:linear-gradient(180deg, rgba(34,197,94,0.12), rgba(34,197,94,0.08));border-color:rgba(34,197,94,0.2);color:#dffef0}
+.response-popup--error{background:linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.06));border-color:rgba(239,68,68,0.18);color:#ffeaea}
+.response-popup--info{background:linear-gradient(180deg, rgba(96,165,250,0.08), rgba(96,165,250,0.04));border-color:rgba(96,165,250,0.12);color:var(--white)}
+
+/* Ensure forms can position the popup */
+form.card{position:relative}
+
+/* popup animation */
+@keyframes popup-in { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
+.response-popup{ animation: popup-in 220ms cubic-bezier(.2,.9,.2,1) both }
 

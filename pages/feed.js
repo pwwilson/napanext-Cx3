@@ -66,12 +66,16 @@ export default function Feed(){
       </div>
 
       <button aria-pressed={isFs} onClick={toggleFs} className="fs-btn" title={isFs? 'Exit fullscreen (Esc)': 'Enter fullscreen'}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M3 9v-6h6" />
-          <path d="M21 15v6h-6" />
-          <path d="M21 3v6h-6" />
-          <path d="M3 21v-6h6" />
-        </svg>
+        {isFs ? (
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="6" y1="18" x2="18" y2="6" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H7v5zm10 4h-2v3h-3v2h5v-5zm-3-9v2h3v3h2V5h-5z" />
+          </svg>
+        )}
       </button>
 
       <div ref={containerRef} className="card feed-list">
