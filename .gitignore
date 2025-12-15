@@ -1,41 +1,58 @@
 # Node
 node_modules/
 
-# Next.js build output
-/.next/
-/out/
+# Lockfile stores (if you use pnpm)
+.pnp.cjs
+.pnp.js
+.pnpm-debug.log*
 
-# Production
-/build/
+# Next.js build output
+.next
+/out
+
+# Static build output
+/build
 
 # Local env files
 .env.local
 .env.*.local
 .env
 
-# Vercel
-.vercel/
+# Vercel / Now
+.vercel
+.vercelignore
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 *.log
 
 # OS files
 .DS_Store
+Thumbs.db
 
-# IDEs
+# Editors/IDEs
 .vscode/
 .idea/
+*.sublime-workspace
 
-# Cache
+# Cache and temporary
 .cache/
 .parcel-cache/
-
-# Storybook
 .next-storybook/
+.turbo/
+node-repl-history
 
-# Optional: ignore the runtime data file used by the scaffold
+# TypeScript
+*.tsbuildinfo
+
+# Coverage / build artifacts
+coverage/
+dist/
+
+# Optional: local runtime data used by the scaffold
 # Remove this line if you want `data/entries.json` committed to the repo
-/data/entries.json
+data/entries.json
+
