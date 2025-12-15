@@ -1,0 +1,22 @@
+[00:00:00.842] Server  LOG      ✓ Ready in 561ms
+[00:08:50.943] Server  LOG      ✓ Compiled in 141ms
+[00:08:51.010] Browser LOG     Refreshing page data due to server-side change
+[00:08:51.203] Browser LOG     Refreshing page data due to server-side change
+[00:08:51.403] Server  LOG      ✓ Compiled in 129ms
+[00:08:52.226] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:08:53.862] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:08:57.297] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:09:10.959] Server  LOG      ✓ Compiled in 14ms
+[00:18:03.484] Server  LOG      ✓ Compiled in 101ms
+[00:18:11.749] Server  LOG      ✓ Compiled in 8ms
+[00:23:15.270] Server  LOG      ✓ Compiled in 9ms
+[00:23:15.514] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:23:16.623] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:23:21.428] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:23:21.461] Server  LOG      ✓ Compiled in 5ms
+[00:26:03.478] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:26:14.829] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+[00:28:37.021] Server  LOG      ✓ Compiled in 13ms
+[00:28:44.099] Server  LOG      ✓ Compiled in 6ms
+[00:32:39.240] Server  LOG      ✓ Compiled in 5ms
+[00:34:12.966] Server  WARN    Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta

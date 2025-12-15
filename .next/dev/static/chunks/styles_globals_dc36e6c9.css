@@ -1,0 +1,190 @@
+/* [project]/styles/globals.css [client] (css) */
+:root {
+  --bg: #0f172a;
+  --card: #0b1220;
+  --muted: #9aa4c4;
+  --accent: #60a5fa;
+  --white: #e6eef8;
+}
+
+html {
+  background: linear-gradient(180deg, var(--bg), #071028);
+  height: 100%;
+}
+
+body, #__next {
+  height: 100%;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
+}
+
+body {
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  font-family: Figtree, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial;
+}
+
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 18px;
+}
+
+a {
+  color: var(--accent);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form input, form textarea, button {
+  font-size: 16px;
+}
+
+form input, form textarea {
+  width: 100%;
+  color: var(--white);
+  appearance: none;
+  background: #071028e6;
+  border: 1px solid #1e283c99;
+  border-radius: 10px;
+  outline: none;
+  margin-top: 8px;
+  padding: 12px;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #60a5fa99;
+  box-shadow: 0 0 0 4px #60a5fa1f;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+button {
+  background: var(--accent);
+  color: #04263a;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 12px 16px;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button, a, input, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.columns {
+  flex-wrap: wrap;
+  gap: 16px;
+  display: flex;
+}
+
+.col {
+  flex: 1;
+  min-width: 280px;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Roboto Mono, Helvetica Neue, monospace;
+}
+
+@media (max-width: 520px) {
+  .container {
+    margin: 12px;
+    padding: 14px;
+  }
+
+  .columns {
+    flex-direction: column;
+  }
+
+  .card {
+    padding: 14px;
+  }
+}
+
+.site-header {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 40;
+  background: linear-gradient(#060a1899, #060a1866);
+  border-bottom: 1px solid #ffffff08;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+}
+
+.site-header .logo {
+  width: auto;
+  height: 58px;
+  display: block;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  margin-left: 12px;
+  text-decoration: none;
+}
+
+.site-header a:hover {
+  opacity: .9;
+}
+
+.feed-list {
+  flex-direction: column;
+  gap: 10px;
+  max-height: 65vh;
+  padding: 12px;
+  display: flex;
+  overflow-y: auto;
+}
+
+.feed-entry {
+  background: linear-gradient(#ffffff05, #ffffff03);
+  border: 1px solid #ffffff05;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.feed-meta {
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.feed-message {
+  font-size: 16px;
+}
+
+.feed-empty {
+  color: var(--muted);
+  opacity: .9;
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 520px) {
+  .site-header .logo {
+    height: 52px;
+  }
+}
+
+/*# sourceMappingURL=styles_globals_dc36e6c9.css.map*/

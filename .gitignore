@@ -1,0 +1,41 @@
+# Node
+node_modules/
+
+# Next.js build output
+/.next/
+/out/
+
+# Production
+/build/
+
+# Local env files
+.env.local
+.env.*.local
+.env
+
+# Vercel
+.vercel/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Storybook
+.next-storybook/
+
+# Optional: ignore the runtime data file used by the scaffold
+# Remove this line if you want `data/entries.json` committed to the repo
+/data/entries.json

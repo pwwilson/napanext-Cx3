@@ -1,0 +1,66 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
+const TYPE_META = {
+  compliments: {
+    title: 'Cx3 – Compliments',
+    subtitle: 'Send someone in the room a secret compliment',
+    fields: ['targetName','message'],
+    submit: 'Send compliment'
+  },
+  confessions: {
+    title: 'Cx3 – Harmless Confessions',
+    subtitle: 'Your confession is anonymous, but on the big screen',
+    fields: ['message'],
+    submit: 'Submit confession'
+  },
+  captions: {
+    title: 'Cx3 – Caption This',
+    subtitle: 'Caption the photo on the screen',
+    fields: ['message'],
+    submit: 'Submit caption'
+  }
+}
+
+export default function TypePage(){
+  const router = useRouter()
+  const { type } = router.query
+  const meta = TYPE_META[type] || {}
+  const [targetName, setTargetName] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState('')
+
+  if(!type) return <div className="container">Loading…</div>
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus('sending')
+    const body = { type, message }
+    if(type === 'compliments') body.targetName = targetName
+
+    const res = await fetch('/api/entries', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify(body) })
+    if(res.ok){ setStatus('sent'); setMessage(''); setTargetName('') }
+    else { setStatus('error') }
+  }
+
+  return (
+    <div className="container">
+      <h1 className="mono">{meta.title || 'Cx3'}</h1>
+      <p className="card">{meta.subtitle}</p>
+
+      <form className="card" onSubmit={handleSubmit}>
+        {meta.fields?.includes('targetName') && (
+          <>
+            <label>Who is this for? (optional)</label>
+            <input value={targetName} onChange={(e)=>setTargetName(e.target.value)} placeholder="Name or nickname" />
+          </>
+        )}
+
+        <label>Message</label>
+        <textarea rows={5} value={message} onChange={(e)=>setMessage(e.target.value)} placeholder={type==='captions'?'Your caption':'Write your message...'} />
+        <button type="submit">{meta.submit || 'Send'}</button>
+        <p className="mono">{status}</p>
+      </form>
+    </div>
+  )
+}
