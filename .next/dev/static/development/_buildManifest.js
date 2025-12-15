@@ -8,6 +8,9 @@ self.__BUILD_MANIFEST = {
   "/display": [
     "static/chunks/pages/display.js"
   ],
+  "/feed": [
+    "static/chunks/pages/feed.js"
+  ],
   "__rewrites": {
     "afterFiles": [],
     "beforeFiles": [],

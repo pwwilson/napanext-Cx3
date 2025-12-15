@@ -4,5 +4,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/api/entries": "pages/api/entries.js",
-  "/display": "pages/display.js"
+  "/display": "pages/display.js",
+  "/feed": "pages/feed.js"
 }

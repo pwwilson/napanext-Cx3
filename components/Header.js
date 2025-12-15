@@ -14,7 +14,6 @@ export default function Header(){
 
         <nav style={{fontSize:14, display:'flex', gap:12}}>
           <Link href="/display">Live</Link>
-          <Link href="/feed">Feed</Link>
         </nav>
       </div>
     </header>

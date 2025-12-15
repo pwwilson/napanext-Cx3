@@ -36,7 +36,7 @@ Dev-server troubleshooting
 
 Security & dependencies
 
-- `npm install` warns about `next@13.4.12` (security advisory). To upgrade to a patched Next.js:
+- `npm install` may warn about an insecure Next.js version. Upgrade with:
 
 ```bash
 npm install next@latest
@@ -47,29 +47,41 @@ npm audit fix
 npm audit fix --force
 ```
 
-Mobile UX improvements in this scaffold
+What changed in this workspace
 
-- The app now includes a mobile-friendly viewport and CSS tweaks:
-	- `viewport-fit=cover` and `safe-area-inset` padding for notches.
-	- Input font-size set to 16px to prevent iOS auto-zoom on focus.
-	- Larger touch targets and improved focus outlines.
-	- Responsive layout for narrow screens.
+- Mobile & UX: the app includes `viewport-fit=cover`, safe-area padding, `font-size:16px` on inputs (prevents iOS zoom), larger touch targets, and improved focus styles.
+- Pages added: `/compliments`, `/confessions`, `/captions`, `/display`, `/feed` (real-time scrolling feed that polls `/api/entries`).
+- Storage: a local runtime file is used at `data/entries.json` for quick testing (not recommended for production).
+- Backgrounds & theme: page and far background set to the same dark blue (`--bg`) for a consistent look.
+- Fonts: `Figtree` is loaded and used globally.
 
-If the screen still zooms or shows white borders on your device, test these steps:
+Logo and backups
 
-- Make sure the browser isn't applying a custom zoom or minimum-font-size setting.
-- On iOS Safari, confirm the page is not forced into Reader/zoom — try in private mode.
+- The header uses `public/logo.svg` for the site logo. If you previously had a logo that was overwritten, a backup was saved at `public/logo.bak.svg`.
+- To restore your original logo manually:
 
-Storage and deployment notes
+```bash
+mv public/logo.bak.svg public/logo.svg
+# then restart dev if running
+```
 
-- This scaffold uses `data/entries.json` for quick local testing only. For production or multi-instance hosting use a managed DB (Supabase/Postgres) or Cloudflare KV for serverless persistence.
-- Recommended deploy targets: Vercel (Next-first) or Cloudflare Pages (Pages Functions + KV for a single-repo, no-DB option).
+Or upload/paste your original `logo.svg` into `public/` and it will be used automatically.
 
-Next steps I can do for you
+Git and ignored files
 
-- Swap JSON storage for Supabase (table + client) — quick and durable.
-- Convert the API to Cloudflare Pages Functions using KV for night-of reliability.
-- Add QR-code generation for the three routes and a printable sheet.
-- Add a lightweight moderation/admin UI.
+- A `.gitignore` was added to exclude `node_modules/`, `/.next/`, `/out/`, `.env*`, and by default `/data/entries.json` (recommended). If you want `data/entries.json` tracked, remove that line from `.gitignore`.
+- If `node_modules` was already tracked, it has been removed from the index (cached) so it no longer appears in `git status`.
 
-If you want one of those, say which and I'll implement it.
+Notes on storage and deployment
+
+- `data/entries.json` is suitable for local testing but not for production. For event-night reliability consider:
+	- Supabase (Postgres, REST + JS client)
+	- Cloudflare Pages Functions + KV (serverless, single-repo)
+
+Next actions I can take
+
+- Convert storage to Supabase and add a `README` section showing how to configure the DB.
+- Convert to Cloudflare Pages Functions + KV (no external DB required).
+- Add QR-code generation and a printable PDF with the three QR codes for the event.
+
+Tell me which next step you want and I'll implement it.

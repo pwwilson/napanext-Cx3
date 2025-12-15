@@ -1,10 +1,8 @@
 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 816 818" width="816" height="818">
 	<style>
-		.s0 { fill: #231f20 } 
-		.s1 { fill: #ffffff } 
+		.s1 { fill: #ffffff }
 	</style>
 	<g id="Layer 1">
-		<path id="&lt;Path&gt;" class="s0" d="m817.02 817.92h-818.1v-818.1h818.1z"/>
 		<g id="Folder 1">
 			<g id="&lt;Group&gt;">
 				<path id="&lt;Path&gt;" class="s1" d="m348.41 242.86c0-6.62 5.38-12 12-12h46.8v167.6c0 1.16-1.46 1.64-2.16 0.72l-56.64-81.14v-75.2z"/>
