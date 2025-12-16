@@ -17,8 +17,8 @@ export default function Home(){
       </div>
 
       <div className="card">
-        <h3>Deploy</h3>
-        <p>Deploy to Vercel or Cloudflare Pages. For quick local testing run <code>npm run dev</code>.</p>
+        <h3>Thank you for attending!</h3>
+        <p>We're looking forward to seeing you at the next Napa Next Event 1/22 at the Napa Valley Car Club!</p>
       </div>
     </div>
   )

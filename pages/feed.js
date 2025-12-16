@@ -62,7 +62,7 @@ export default function Feed(){
         <span className="material-symbols-outlined">{isFs ? 'fullscreen_exit' : 'fullscreen'}</span>
       </button>
 
-      <div ref={wrapperRef} className="container" style={{position:'relative'}}>
+      <div ref={wrapperRef} className="container feed-container" style={{position:'relative'}}>
         {/* Background video (full-bleed) */}
         <video className="feed-bg-video" src="/turntable1.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
         <div className="bg-dim" aria-hidden="true"></div>
@@ -90,6 +90,7 @@ export default function Feed(){
           )
         })}
       </div>
+      <img src="/qr-code.png" alt="QR code" className="feed-qr" />
     </div>
     </>
   )

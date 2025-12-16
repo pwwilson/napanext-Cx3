@@ -3,6 +3,36 @@ import path from 'path'
 
 const DATA = path.resolve(process.cwd(), 'data', 'entries.json')
 
+// Post new entry to Slack
+async function postToSlack(entry){
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL
+  if(!webhookUrl) return // skip if no webhook configured
+  
+  try{
+    const typeEmoji = { compliments: '💐', confessions: '🤫', captions: '🖼️' }
+    const emoji = typeEmoji[entry.type] || '📝'
+    const text = `${emoji} *${entry.type}*${entry.targetName ? ` → ${entry.targetName}` : ''}`
+    const payload = {
+      text: text,
+      blocks: [
+        {
+          type: 'section',
+          text: { type: 'mrkdwn', text: text }
+        },
+        {
+          type: 'section',
+          text: { type: 'mrkdwn', text: `> ${entry.message}` }
+        },
+        {
+          type: 'context',
+          elements: [{ type: 'mrkdwn', text: `_${new Date(entry.created_at).toLocaleTimeString()}_` }]
+        }
+      ]
+    }
+    await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+  }catch(e){ console.warn('Slack post failed:', e.message) }
+}
+
 async function read(){
   try{
     const raw = await fs.promises.readFile(DATA, 'utf8')
@@ -41,6 +71,8 @@ export default async function handler(req, res){
       }
       list.unshift(entry)
       await write(list)
+      // post to Slack async (don't wait for response)
+      postToSlack(entry).catch(e => console.error('Slack post error:', e))
       return res.status(201).json(entry)
     }catch(e){
       console.error(e)

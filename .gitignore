@@ -19,7 +19,7 @@ node_modules/
 .env
 
 # Vercel / Now
-.vercel
+# .vercel - commented out to allow committing project link config
 .vercelignore
 
 # Logs

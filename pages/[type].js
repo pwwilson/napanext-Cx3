@@ -9,7 +9,7 @@ const TYPE_META = {
     submit: 'Send compliment'
   },
   confessions: {
-    title: 'Cx3 – Harmless Confessions',
+    title: 'Harmless? (tech) Confessions',
     subtitle: 'Your confession is anonymous, but on the big screen',
     fields: ['message'],
     submit: 'Submit confession'
