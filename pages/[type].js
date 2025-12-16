@@ -5,7 +5,7 @@ const TYPE_META = {
   compliments: {
     title: 'Cx3 – Compliments',
     subtitle: 'Send someone in the room a secret compliment',
-    description: 'Brighten someone's day anonymously. Your kind words will appear on the big screen—but your identity stays secret.',
+    description: 'Brighten someone\'s day anonymously. Your kind words will appear on the big screen—but your identity stays secret.',
     fields: ['targetName','message'],
     submit: 'Send compliment'
   },
