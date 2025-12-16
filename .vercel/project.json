@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_cFYSgHqUxMKRkPpxkuRcmpJkfr6v",
+  "orgId": "team_FgsdwU4kkkYoec6LQXBlqFZb",
+  "projectName": "napanext-cx3",
+  "settings": {
+    "createdAt": 1765907173332,
+    "framework": "nextjs",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
