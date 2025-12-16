@@ -90,8 +90,8 @@ export default function Feed(){
           )
         })}
       </div>
-      <img src="/qr-code.png" alt="QR code" className="feed-qr" />
     </div>
+    <img src="/qr-code.png" alt="QR code" className="feed-qr" />
     </>
   )
 }

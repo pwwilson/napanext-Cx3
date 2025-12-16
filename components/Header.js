@@ -7,14 +7,14 @@ export default function Header(){
         <Link href="/" style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.svg" alt="Cx3" className="logo" />
           <div style={{display:'flex',flexDirection:'column'}}>
-            <span className="mono" style={{fontSize:18}}>Cx3</span>
+            <span className="mono" style={{fontSize:18}}>Napa Next™ at The River Club</span>
             <small style={{color:'var(--muted)',fontSize:12}}>Compliments · Confessions · Captions</small>
           </div>
         </Link>
 
-        <nav style={{fontSize:14, display:'flex', gap:12}}>
+        {/* <nav style={{fontSize:14, display:'flex', gap:12}}>
           <Link href="/display">Live</Link>
-        </nav>
+        </nav> */}
       </div>
     </header>
   )

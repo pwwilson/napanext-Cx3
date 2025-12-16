@@ -5,18 +5,21 @@ const TYPE_META = {
   compliments: {
     title: 'Cx3 – Compliments',
     subtitle: 'Send someone in the room a secret compliment',
+    description: 'Brighten someone's day anonymously. Your kind words will appear on the big screen—but your identity stays secret.',
     fields: ['targetName','message'],
     submit: 'Send compliment'
   },
   confessions: {
     title: 'Harmless? (tech) Confessions',
     subtitle: 'Your confession is anonymous, but on the big screen',
+    description: 'We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless (and mildly tech-related).',
     fields: ['message'],
     submit: 'Submit confession'
   },
   captions: {
     title: 'Cx3 – Caption This',
     subtitle: 'Caption the photo on the screen',
+    description: 'What AI prompt do you think generated the Eventbrite banner for this party? Be creative, be specific, be ridiculous.',
     fields: ['message'],
     submit: 'Submit caption'
   }
@@ -64,6 +67,9 @@ export default function TypePage(){
     <div className="container">
       <h1 className="mono">{meta.title || 'Cx3'}</h1>
       <p className="card">{meta.subtitle}</p>
+      {meta.description && (
+        <p style={{color:'var(--muted)',fontSize:14,lineHeight:1.5,marginBottom:16}}>{meta.description}</p>
+      )}
       {type === 'captions' && (
         <img src="/event-banner.jpeg" alt="Event banner" className="page-banner" />
       )}

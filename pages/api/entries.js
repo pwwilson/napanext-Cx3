@@ -1,12 +1,14 @@
-import fs from 'fs'
-import path from 'path'
+import { kv } from '@vercel/kv'
 
-const DATA = path.resolve(process.cwd(), 'data', 'entries.json')
+const ENTRIES_KEY = 'entries'
 
 // Post new entry to Slack
 async function postToSlack(entry){
   const webhookUrl = process.env.SLACK_WEBHOOK_URL
-  if(!webhookUrl) return // skip if no webhook configured
+  if(!webhookUrl) {
+    console.warn('SLACK_WEBHOOK_URL not configured')
+    return
+  }
   
   try{
     const typeEmoji = { compliments: '💐', confessions: '🤫', captions: '🖼️' }
@@ -29,25 +31,42 @@ async function postToSlack(entry){
         }
       ]
     }
-    await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-  }catch(e){ console.warn('Slack post failed:', e.message) }
+    const res = await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    if(!res.ok) console.warn('Slack post failed:', res.status, await res.text())
+    else console.log('Slack post sent successfully')
+  }catch(e){ console.error('Slack post error:', e.message, e.stack) }
 }
 
 async function read(){
   try{
-    const raw = await fs.promises.readFile(DATA, 'utf8')
-    return JSON.parse(raw || '[]')
-  }catch(e){ return [] }
+    // Get all entries from KV
+    const list = await kv.lrange(ENTRIES_KEY, 0, -1)
+    return list || []
+  }catch(e){ 
+    console.error('KV read error:', e)
+    return [] 
+  }
 }
 
 async function write(list){
-  await fs.promises.mkdir(path.dirname(DATA), { recursive: true })
-  await fs.promises.writeFile(DATA, JSON.stringify(list, null, 2), 'utf8')
+  try{
+    // Clear and write all entries to KV
+    await kv.del(ENTRIES_KEY)
+    if(list.length > 0) {
+      await kv.lpush(ENTRIES_KEY, ...list)
+    }
+  }catch(e){
+    console.error('KV write error:', e)
+  }
 }
 
 export default async function handler(req, res){
+  console.log(`[${new Date().toISOString()}] ${req.method} /api/entries`)
+  
   if(req.method === 'GET'){
+    console.log('GET: fetching entries...')
     const list = await read()
+    console.log(`GET: returning ${list.length} entries`)
     // newest first
     list.sort((a,b)=> new Date(b.created_at) - new Date(a.created_at))
     return res.status(200).json(list)
@@ -55,12 +74,20 @@ export default async function handler(req, res){
 
   if(req.method === 'POST'){
     try{
+      console.log('POST: received body:', JSON.stringify(req.body))
       const { type, targetName, message } = req.body
-      if(!type || !message) return res.status(400).json({ error: 'type and message required' })
+      if(!type || !message) {
+        console.error('POST: missing type or message')
+        return res.status(400).json({ error: 'type and message required' })
+      }
 
       const allowed = ['compliments','confessions','captions']
-      if(!allowed.includes(type)) return res.status(400).json({ error: 'invalid type' })
+      if(!allowed.includes(type)) {
+        console.error(`POST: invalid type "${type}"`)
+        return res.status(400).json({ error: 'invalid type' })
+      }
 
+      console.log(`POST: creating ${type} entry`)
       const list = await read()
       const entry = {
         id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(),
@@ -69,13 +96,19 @@ export default async function handler(req, res){
         message: String(message).slice(0,1000),
         created_at: new Date().toISOString()
       }
+      console.log('POST: writing entry to file...')
       list.unshift(entry)
       await write(list)
+      console.log('POST: entry written successfully')
+      
       // post to Slack async (don't wait for response)
+      console.log('POST: sending to Slack...')
       postToSlack(entry).catch(e => console.error('Slack post error:', e))
+      
+      console.log('POST: responding with 201')
       return res.status(201).json(entry)
     }catch(e){
-      console.error(e)
+      console.error('POST: error:', e.message, e.stack)
       return res.status(500).json({ error: 'server error' })
     }
   }
