@@ -39,24 +39,28 @@ async function postToSlack(entry){
 
 async function read(){
   try{
+    console.log('KV read: attempting to fetch from key:', ENTRIES_KEY)
     // Get all entries from KV
     const list = await kv.lrange(ENTRIES_KEY, 0, -1)
-    console.log('KV read:', list ? list.length : 0, 'entries')
+    console.log('KV read: received', list ? list.length : 'null', 'entries, type:', typeof list)
+    console.log('KV read: first entry sample:', list && list[0] ? JSON.stringify(list[0]).substring(0, 100) : 'none')
     return list || []
   }catch(e){ 
-    console.error('KV read error:', e)
+    console.error('KV read error:', e.message, e.stack)
     return [] 
   }
 }
 
 async function addEntry(entry){
   try{
+    console.log('KV write: attempting to store entry:', entry.id)
     // Add new entry to the front of the list
     // Store as JSON object (KV handles serialization)
-    await kv.lpush(ENTRIES_KEY, entry)
-    console.log('KV wrote entry:', entry.id)
+    const result = await kv.lpush(ENTRIES_KEY, entry)
+    console.log('KV write success: lpush returned', result, 'for entry:', entry.id)
   }catch(e){
-    console.error('KV write error:', e)
+    console.error('KV write error:', e.message, e.stack)
+    throw e
   }
 }
 
