@@ -48,13 +48,10 @@ async function read(){
   }
 }
 
-async function write(list){
+async function addEntry(entry){
   try{
-    // Clear and write all entries to KV
-    await kv.del(ENTRIES_KEY)
-    if(list.length > 0) {
-      await kv.lpush(ENTRIES_KEY, ...list)
-    }
+    // Add new entry to the front of the list
+    await kv.lpush(ENTRIES_KEY, entry)
   }catch(e){
     console.error('KV write error:', e)
   }
@@ -88,7 +85,6 @@ export default async function handler(req, res){
       }
 
       console.log(`POST: creating ${type} entry`)
-      const list = await read()
       const entry = {
         id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(),
         type,
@@ -96,9 +92,8 @@ export default async function handler(req, res){
         message: String(message).slice(0,1000),
         created_at: new Date().toISOString()
       }
-      console.log('POST: writing entry to file...')
-      list.unshift(entry)
-      await write(list)
+      console.log('POST: writing entry to KV...')
+      await addEntry(entry)
       console.log('POST: entry written successfully')
       
       // post to Slack async (don't wait for response)

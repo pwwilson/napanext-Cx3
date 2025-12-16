@@ -12,7 +12,7 @@ const TYPE_META = {
   confessions: {
     title: 'Confessions (tech-related?)',
     subtitle: 'Your confession is anonymous, but on the big screen',
-    description: 'We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless (and tech-related if you choose).',
+    description: <>We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless <span style={{fontSize: '14px'}}>(and tech-related if you choose)</span>.</>,
     fields: ['message'],
     submit: 'Submit confession'
   },
