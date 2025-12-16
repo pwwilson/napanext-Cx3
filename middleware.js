@@ -9,7 +9,8 @@ export function middleware(req) {
 
   const isPublic = PUBLIC_PATHS.includes(pathname)
   const isStatic = STATIC_PREFIXES.some((prefix) => pathname.startsWith(prefix))
-  if (isPublic || isStatic || pathname.match(/\.(png|jpg|jpeg|gif|svg|ico)$/i)) {
+  // Allow common static assets incl. video/audio
+  if (isPublic || isStatic || pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|mp4|webm|mp3|wav|ogg)$/i)) {
     return NextResponse.next()
   }
 
