@@ -6,11 +6,13 @@
     "setup": "npm install && npm i -g vercel",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "clear": "node scripts/clear-entries.js"
   },
   "dependencies": {
     "@vercel/kv": "^3.0.0",
     "redis": "^4.6.7",
+    "dotenv": "^16.0.0",
     "next": "^16.0.10",
     "react": "18.2.0",
     "react-dom": "18.2.0"
