@@ -12,7 +12,7 @@ const TYPE_META = {
   confessions: {
     title: 'Harmless? (tech) Confessions',
     subtitle: 'Your confession is anonymous, but on the big screen',
-    description: 'We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless (and mildly tech-related).',
+    description: 'We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless (and tech-related if you choose).',
     fields: ['message'],
     submit: 'Submit confession'
   },
