@@ -13,6 +13,9 @@ export default function AccessGate({ children }) {
       return
     }
 
+    // Wait for router to be ready
+    if (!router.isReady) return
+
     // Access key (can be customized via env var)
     const validKey = process.env.NEXT_PUBLIC_ACCESS_KEY || 'cx3party2024'
     
@@ -30,11 +33,11 @@ export default function AccessGate({ children }) {
     if (key === validKey) {
       setHasAccess(true)
       sessionStorage.setItem('cx3_access', 'granted')
-    } else if (Object.keys(router.query).length > 0) {
-      // Query is loaded and key is wrong/missing
+    } else {
+      // No valid key - deny access
       setDenied(true)
     }
-  }, [router.query, router.pathname])
+  }, [router.isReady, router.query, router.pathname])
 
   if (denied) {
     return (

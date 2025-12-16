@@ -29,7 +29,7 @@ export default function Display(){
       <div className="columns">
         <div className="col card">
           <h3>Compliments</h3>
-          {(byType.compliments || []).map(e=> <div key={e.id} className="card">{e.targetName?`To ${e.targetName} — `:''}{e.message}</div>)}
+          {(byType.compliments || []).map(e=> <div key={e.id} className="card">{e.targetName?`To ${e.targetName} - `:''}{e.message}</div>)}
         </div>
 
         <div className="col card">

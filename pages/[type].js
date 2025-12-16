@@ -5,14 +5,14 @@ const TYPE_META = {
   compliments: {
     title: 'Compliments',
     subtitle: 'Send someone in the room a secret compliment',
-    description: 'Brighten someone\'s day anonymously. Your kind words will appear on the big screen—but your identity stays secret.',
+    description: 'Brighten someone\'s day anonymously. Your kind words will appear on the big screen - but your identity stays secret.',
     fields: ['targetName','message'],
     submit: 'Send compliment'
   },
   confessions: {
     title: 'Confessions (tech-related?)',
     subtitle: 'Your confession is anonymous, but on the big screen',
-    description: <>We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless <span style={{fontSize: '14px'}}>(and tech-related if you choose)</span>.</>,
+    description: <>We all have secrets. Yours will be displayed for the room - but no one will know it came from you. Keep it harmless <span style={{fontSize: '14px'}}>(and tech-related if you choose)</span>.</>,
     fields: ['message'],
     submit: 'Submit confession'
   },
@@ -58,8 +58,8 @@ export default function TypePage(){
     if(res.ok){ setStatus('sent'); setMessage(''); setTargetName('') }
     else { setStatus('error') }
     try{
-      if(res.ok){ showPopup('Sent — thanks!', 'success', 3000) }
-      else { showPopup('Could not send — try again', 'error', 5000) }
+      if(res.ok){ showPopup('Sent - thanks!', 'success', 3000) }
+      else { showPopup('Could not send - try again', 'error', 5000) }
     }catch(e){ showPopup('Network error', 'error', 5000) }
   }
 

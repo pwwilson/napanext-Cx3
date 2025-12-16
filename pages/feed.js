@@ -85,7 +85,7 @@ export default function Feed(){
               {e.type === 'captions' && (
                 <img src="/event-banner.jpeg" alt="Event banner" className="feed-caption-img" />
               )}
-              <div className="feed-message">{e.targetName? <span className="mono">To {e.targetName} — </span>: null}{e.message}</div>
+              <div className="feed-message">{e.targetName? <span className="mono">To {e.targetName} - </span>: null}{e.message}</div>
             </div>
           )
         })}
