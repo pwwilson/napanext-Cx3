@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 export default function AccessGate({ children }) {
   const router = useRouter()
   const [hasAccess, setHasAccess] = useState(false)
+  const [denied, setDenied] = useState(false)
 
   useEffect(() => {
     // Access key (can be customized via env var)
@@ -24,26 +25,25 @@ export default function AccessGate({ children }) {
       setHasAccess(true)
       sessionStorage.setItem('cx3_access', 'granted')
     } else if (Object.keys(router.query).length > 0) {
-      // Only show denied if query is loaded and key is wrong/missing
-      setHasAccess(false)
+      // Query is loaded and key is wrong/missing
+      setDenied(true)
     }
   }, [router.query])
 
-  if (!hasAccess && Object.keys(router.query).length > 0) {
+  if (denied) {
     return (
       <div style={{
         minHeight: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '24px'
       }}>
-        <div className="card" style={{ maxWidth: '400px', textAlign: 'center' }}>
-          <h1 className="mono" style={{ marginBottom: '12px' }}>🔒</h1>
-          <p style={{ color: 'var(--muted)' }}>
-            Access denied. This page is for event attendees only.
-          </p>
-        </div>
+        <img src="/sad-robot.png" alt="Access Denied" style={{ width: '120px', height: '120px', marginBottom: '24px' }} />
+        <p style={{ fontSize: '18px', fontWeight: '600', color: 'var(--white)', textAlign: 'center' }}>
+          Query Code Needed - Access Denied
+        </p>
       </div>
     )
   }

@@ -92,7 +92,18 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .feed-title{display:inline-block;padding:10px 16px;border-radius:10px}
 
 /* QR code on feed, positioned to the lower right corner */
-.feed-qr{position:fixed;bottom:32px;right:32px;width:140px;height:auto;z-index:110;border-radius:12px;box-shadow:0 8px 28px rgba(2,6,23,0.6);background:rgba(0,0,0,0.35);padding:10px;backdrop-filter:blur(4px)}
+.feed-qr{position:fixed;bottom:32px;right:32px;width:140px;height:auto;z-index:110;border-radius:12px;box-shadow:0 8px 28px rgba(2,6,23,0.6);background:rgba(0,0,0,0.35);padding:10px;backdrop-filter:blur(4px);pointer-events:auto}
+
+/* Ensure QR code stays visible in fullscreen */
+.container:fullscreen .feed-qr,
+.container:-webkit-full-screen .feed-qr,
+.container:-moz-full-screen .feed-qr,
+.container:-ms-fullscreen .feed-qr {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 9999;
+}
 
 /* Full-width banner on captions page */
 .page-banner{width:100%;height:auto;border-radius:10px;margin:12px 0 18px 0;display:block}
