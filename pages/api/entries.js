@@ -11,7 +11,7 @@ async function postToSlack(entry){
   }
   
   try{
-    const typeEmoji = { compliments: '💐', confessions: '🤫', captions: '🖼️' }
+    const typeEmoji = { compliments: '🚀', confessions: '🤫', captions: '🖼️' }
     const emoji = typeEmoji[entry.type] || '📝'
     const text = `${emoji} *${entry.type}*${entry.targetName ? ` → ${entry.targetName}` : ''}`
     const payload = {

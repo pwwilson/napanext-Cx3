@@ -76,7 +76,7 @@ export default function Feed(){
         {entries.length === 0 && <div className="feed-empty">No entries yet</div>}
         {entries.map(e => {
           const typeMap = { compliments: 'compliment', confessions: 'confession', captions: 'caption' }
-          const emojiMap = { compliments: '💐', confessions: '🤫', captions: '🖼️' }
+          const emojiMap = { compliments: '🚀', confessions: '🤫', captions: '🖼️' }
           const dispType = typeMap[e.type] || e.type
           const emoji = emojiMap[e.type] || ''
           return (

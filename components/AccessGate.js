@@ -7,6 +7,12 @@ export default function AccessGate({ children }) {
   const [denied, setDenied] = useState(false)
 
   useEffect(() => {
+    // Don't gate the /feed page
+    if (router.pathname === '/feed') {
+      setHasAccess(true)
+      return
+    }
+
     // Access key (can be customized via env var)
     const validKey = process.env.NEXT_PUBLIC_ACCESS_KEY || 'cx3party2024'
     
@@ -28,7 +34,7 @@ export default function AccessGate({ children }) {
       // Query is loaded and key is wrong/missing
       setDenied(true)
     }
-  }, [router.query])
+  }, [router.query, router.pathname])
 
   if (denied) {
     return (

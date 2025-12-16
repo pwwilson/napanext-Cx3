@@ -19,7 +19,7 @@ const TYPE_META = {
   captions: {
     title: 'Cx3 – Caption This',
     subtitle: 'Caption the photo on the screen',
-    description: 'What AI prompt do you think generated the Eventbrite banner for this party? Be creative, be specific, be ridiculous.',
+    description: 'What AI prompt do you think Patrick used to generate the Eventbrite banner for this party? Wrong answers only.',
     fields: ['message'],
     submit: 'Submit caption'
   }
