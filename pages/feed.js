@@ -69,7 +69,7 @@ export default function Feed(){
         <div className="bg-dim" aria-hidden="true"></div>
         <div className="feed-header">
           <div className="card feed-title">
-            <h1 className="mono">Party Feed</h1>
+            <h1 className="mono">Party Feed at The River Club</h1>
           </div>
         </div>
 
