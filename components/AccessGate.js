@@ -13,7 +13,7 @@ export default function AccessGate({ children }) {
       return
     }
 
-    // Wait for router to be ready
+    // Wait for router to be ready before checking query params
     if (!router.isReady) return
 
     // Access key (can be customized via env var)
@@ -49,7 +49,7 @@ export default function AccessGate({ children }) {
         justifyContent: 'center',
         padding: '24px'
       }}>
-        <img src="/sad-robot.png" alt="Access Denied" style={{ width: '120px', height: '120px', marginBottom: '24px' }} />
+        <img src="/sad-robot.png" alt="Access Denied" style={{ width: '240px', height: 'auto', objectFit: 'contain', marginBottom: '32px' }} />
         <p style={{ fontSize: '18px', fontWeight: '600', color: 'var(--white)', textAlign: 'center' }}>
           Query Code Needed - Access Denied
         </p>
