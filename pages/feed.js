@@ -16,10 +16,11 @@ export default function Feed(){
       try{
         const res = await fetch('/api/entries')
         const data = await res.json()
+        console.log('Feed fetched:', data?.length || 0, 'entries')
         // API returns newest-first; show oldest-first in feed
         const asc = (data || []).slice().reverse()
         if(mounted) setEntries(asc)
-      }catch(e){console.error(e)}
+      }catch(e){console.error('Feed fetch error:', e)}
     }
     fetchEntries()
     const id = setInterval(fetchEntries, 5000)
@@ -90,8 +91,8 @@ export default function Feed(){
           )
         })}
       </div>
+      <img src="/qr-code.png" alt="QR code" className="feed-qr" />
     </div>
-    <img src="/qr-code.png" alt="QR code" className="feed-qr" />
     </>
   )
 }

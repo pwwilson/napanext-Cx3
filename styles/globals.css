@@ -99,10 +99,21 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-webkit-full-screen .feed-qr,
 .container:-moz-full-screen .feed-qr,
 .container:-ms-fullscreen .feed-qr {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 9999;
+  position: fixed !important;
+  bottom: 32px !important;
+  right: 32px !important;
+  z-index: 9999 !important;
+}
+
+/* Also ensure it's visible when wrapper is fullscreen */
+.feed-container:fullscreen ~ .feed-qr,
+.feed-container:-webkit-full-screen ~ .feed-qr,
+.feed-container:-moz-full-screen ~ .feed-qr,
+.feed-container:-ms-fullscreen ~ .feed-qr {
+  position: fixed !important;
+  bottom: 32px !important;
+  right: 32px !important;
+  z-index: 9999 !important;
 }
 
 /* Full-width banner on captions page */

@@ -41,6 +41,7 @@ async function read(){
   try{
     // Get all entries from KV
     const list = await kv.lrange(ENTRIES_KEY, 0, -1)
+    console.log('KV read:', list ? list.length : 0, 'entries')
     return list || []
   }catch(e){ 
     console.error('KV read error:', e)
@@ -51,7 +52,9 @@ async function read(){
 async function addEntry(entry){
   try{
     // Add new entry to the front of the list
+    // Store as JSON object (KV handles serialization)
     await kv.lpush(ENTRIES_KEY, entry)
+    console.log('KV wrote entry:', entry.id)
   }catch(e){
     console.error('KV write error:', e)
   }
