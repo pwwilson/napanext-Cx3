@@ -3,21 +3,21 @@ import { useRouter } from 'next/router'
 
 const TYPE_META = {
   compliments: {
-    title: 'Cx3 – Compliments',
+    title: 'Compliments',
     subtitle: 'Send someone in the room a secret compliment',
     description: 'Brighten someone\'s day anonymously. Your kind words will appear on the big screen—but your identity stays secret.',
     fields: ['targetName','message'],
     submit: 'Send compliment'
   },
   confessions: {
-    title: 'Harmless? (tech) Confessions',
+    title: 'Confessions (tech-related?)',
     subtitle: 'Your confession is anonymous, but on the big screen',
     description: 'We all have secrets. Yours will be displayed for the room—but no one will know it came from you. Keep it harmless (and tech-related if you choose).',
     fields: ['message'],
     submit: 'Submit confession'
   },
   captions: {
-    title: 'Cx3 – Caption This',
+    title: 'Caption This',
     subtitle: 'Caption the photo on the screen',
     description: 'What AI prompt do you think Patrick used to generate the Eventbrite banner for this party? Wrong answers only.',
     fields: ['message'],
@@ -68,7 +68,7 @@ export default function TypePage(){
       <h1 className="mono">{meta.title || 'Cx3'}</h1>
       <p className="card">{meta.subtitle}</p>
       {meta.description && (
-        <p style={{color:'var(--muted)',fontSize:14,lineHeight:1.5,marginBottom:16}}>{meta.description}</p>
+        <p style={{color:'var(--muted)',fontSize:18,lineHeight:1.5,marginBottom:16}}>{meta.description}</p>
       )}
       {type === 'captions' && (
         <img src="/event-banner.jpeg" alt="Event banner" className="page-banner" />
