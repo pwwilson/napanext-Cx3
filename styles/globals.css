@@ -78,9 +78,9 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 /* Feed styles */
 .feed-list{max-height:65vh;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
 .feed-entry{padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
-.feed-meta{color:var(--muted);font-size:12px;margin-bottom:6px}
-.feed-message{font-size:16px}
-.feed-empty{color:var(--muted);opacity:0.9;padding:20px;text-align:center}
+.feed-meta{color:var(--muted);font-size:18px;margin-bottom:10px}
+.feed-message{font-size:24px;line-height:1.2}
+.feed-empty{color:var(--muted);opacity:0.9;padding:24px;text-align:center;font-size:24px}
 
 /* Fullscreen button */
 .fs-btn{background:rgba(255,255,255,0.04);color:var(--white);border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:999px;cursor:pointer;position:absolute;top:12px;right:12px;z-index:80;display:flex;align-items:center;justify-content:center;width:48px;height:48px;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
@@ -99,10 +99,10 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-webkit-full-screen,
 .container:-moz-full-screen,
 .container:-ms-fullscreen {
-  /* default fullscreen: keep more generous padding so content doesn't hug edges */
-  padding: 36px;
-  margin: 24px auto;
-  max-width: 1200px;
+  /* default fullscreen: doubled padding so content breathes on big screens */
+  padding: 192px;
+  margin: 96px auto;
+  max-width: 1400px;
   box-sizing: border-box;
 }
 
@@ -111,7 +111,7 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-moz-full-screen .feed-list,
 .container:-ms-fullscreen .feed-list {
   /* leave more space for header/meta and comfortable gaps */
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 480px);
 }
 
 /* In landscape browsers, make fullscreen match the non-fullscreen container spacing */
@@ -120,7 +120,7 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
   .container:-webkit-full-screen,
   .container:-moz-full-screen,
   .container:-ms-fullscreen {
-    padding: 48px;
+    padding: 192px;
     margin: 40px auto;
     max-width: 960px;
   }
@@ -129,7 +129,7 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
   .container:-webkit-full-screen .feed-list,
   .container:-moz-full-screen .feed-list,
   .container:-ms-fullscreen .feed-list {
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 520px);
   }
 }
 
@@ -142,10 +142,43 @@ button, a, input, textarea{ -webkit-tap-highlight-color: transparent; }
 .container:-webkit-full-screen textarea,
 .container:-moz-full-screen textarea,
 .container:-ms-fullscreen textarea {
-  padding: 16px;
-  border-radius: 12px;
-  margin-top: 12px;
-  font-size: 18px;
+  padding: 40px;
+  border-radius: 18px;
+  margin-top: 18px;
+  font-size: 22px;
+}
+
+/* When a form is shown inside a fullscreen container, keep it centered
+   and only take up half the screen for better legibility on big displays. */
+.container:fullscreen form.card,
+.container:-webkit-full-screen form.card,
+.container:-moz-full-screen form.card,
+.container:-ms-fullscreen form.card {
+  width: 50%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 160px;
+  border-radius: 20px;
+  box-shadow: 0 30px 100px rgba(2,6,23,0.7);
+}
+
+/* On smaller screens, fallback to near-full width so controls remain usable */
+@media (max-width: 980px) {
+  .container:fullscreen form.card,
+  .container:-webkit-full-screen form.card,
+  .container:-moz-full-screen form.card,
+  .container:-ms-fullscreen form.card {
+    width: 90%;
+    padding: 96px;
+  }
+}
+
+/* Give textarea even more comfortable vertical space when in fullscreen */
+.container:fullscreen textarea,
+.container:-webkit-full-screen textarea,
+.container:-moz-full-screen textarea,
+.container:-ms-fullscreen textarea {
+  min-height: 640px;
 }
 
 

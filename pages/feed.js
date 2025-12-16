@@ -22,7 +22,7 @@ export default function Feed(){
       }catch(e){console.error(e)}
     }
     fetchEntries()
-    const id = setInterval(fetchEntries, 1500)
+    const id = setInterval(fetchEntries, 5000)
     return ()=>{ mounted=false; clearInterval(id) }
   },[])
 
