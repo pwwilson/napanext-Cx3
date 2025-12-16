@@ -57,36 +57,40 @@ export default function Feed(){
   }
 
   return (
-    <div ref={wrapperRef} className="container" style={{position:'relative'}}>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
-        <div>
-          <h1 className="mono">Cx3 Feed</h1>
-          <p className="card" style={{display:'inline-block',margin:0}}>Live feed — shows entries in realtime as they arrive.</p>
-        </div>
-      </div>
-
+    <>
       <button aria-pressed={isFs} onClick={toggleFs} className="fs-btn" title={isFs? 'Exit fullscreen (Esc)': 'Enter fullscreen'}>
-        {isFs ? (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="6" y1="6" x2="18" y2="18" />
-            <line x1="6" y1="18" x2="18" y2="6" />
-          </svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H7v5zm10 4h-2v3h-3v2h5v-5zm-3-9v2h3v3h2V5h-5z" />
-          </svg>
-        )}
+        <span className="material-symbols-outlined">{isFs ? 'fullscreen_exit' : 'fullscreen'}</span>
       </button>
 
-      <div ref={containerRef} className="card feed-list">
-        {entries.length === 0 && <div className="feed-empty">No entries yet</div>}
-        {entries.map(e => (
-          <div key={e.id} className="feed-entry">
-            <div className="feed-meta"><strong className="mono">{e.type}</strong> · <small>{fmt(e.created_at)}</small></div>
-            <div className="feed-message">{e.targetName? <span className="mono">To {e.targetName} — </span>: null}{e.message}</div>
+      <div ref={wrapperRef} className="container" style={{position:'relative'}}>
+        {/* Background video (full-bleed) */}
+        <video className="feed-bg-video" src="/turntable1.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
+        <div className="bg-dim" aria-hidden="true"></div>
+        <div className="feed-header">
+          <div className="card feed-title">
+            <h1 className="mono">Party Feed</h1>
           </div>
-        ))}
+        </div>
+
+        <div ref={containerRef} className="card feed-list">
+        {entries.length === 0 && <div className="feed-empty">No entries yet</div>}
+        {entries.map(e => {
+          const typeMap = { compliments: 'compliment', confessions: 'confession', captions: 'caption' }
+          const emojiMap = { compliments: '💐', confessions: '🤫', captions: '🖼️' }
+          const dispType = typeMap[e.type] || e.type
+          const emoji = emojiMap[e.type] || ''
+          return (
+            <div key={e.id} className="feed-entry">
+              <div className="feed-meta"><span className="feed-emoji" aria-hidden="true">{emoji}</span><strong className="mono">{dispType}</strong> · <small>{fmt(e.created_at)}</small></div>
+              {e.type === 'captions' && (
+                <img src="/event-banner.jpeg" alt="Event banner" className="feed-caption-img" />
+              )}
+              <div className="feed-message">{e.targetName? <span className="mono">To {e.targetName} — </span>: null}{e.message}</div>
+            </div>
+          )
+        })}
       </div>
     </div>
+    </>
   )
 }

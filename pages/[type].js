@@ -64,6 +64,9 @@ export default function TypePage(){
     <div className="container">
       <h1 className="mono">{meta.title || 'Cx3'}</h1>
       <p className="card">{meta.subtitle}</p>
+      {type === 'captions' && (
+        <img src="/event-banner.jpeg" alt="Event banner" className="page-banner" />
+      )}
 
       <form className="card" onSubmit={handleSubmit}>
         {meta.fields?.includes('targetName') && (
