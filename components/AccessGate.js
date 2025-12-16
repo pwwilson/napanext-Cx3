@@ -6,6 +6,11 @@ export default function AccessGate({ children }) {
   const [hasAccess, setHasAccess] = useState(false)
   const [denied, setDenied] = useState(false)
 
+  const hasCookieAccess = () => {
+    if (typeof document === 'undefined') return false
+    return document.cookie.split(';').some((c) => c.trim().startsWith('cx3_access=granted'))
+  }
+
   useEffect(() => {
     // Don't gate the /feed page
     if (router.pathname === '/feed') {
@@ -19,7 +24,13 @@ export default function AccessGate({ children }) {
     // Access key (can be customized via env var)
     const validKey = process.env.NEXT_PUBLIC_ACCESS_KEY || 'cx3party2024'
     
-    // Check sessionStorage first
+    // Check cookie (set by middleware) first
+    if (hasCookieAccess()) {
+      setHasAccess(true)
+      return
+    }
+
+    // Check sessionStorage for legacy grant
     if (typeof window !== 'undefined') {
       const stored = sessionStorage.getItem('cx3_access')
       if (stored === 'granted') {
@@ -33,6 +44,7 @@ export default function AccessGate({ children }) {
     if (key === validKey) {
       setHasAccess(true)
       sessionStorage.setItem('cx3_access', 'granted')
+      document.cookie = 'cx3_access=granted; path=/; max-age=43200; SameSite=Lax'
     } else {
       // No valid key - deny access
       setDenied(true)

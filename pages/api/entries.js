@@ -1,6 +1,18 @@
-import { kv } from '@vercel/kv'
+import { createClient } from 'redis'
 
 const ENTRIES_KEY = 'entries'
+let redisClient = null
+
+async function getRedis(){
+  if(redisClient) return redisClient
+  if(!process.env.REDIS_URL){
+    throw new Error('REDIS_URL is not configured')
+  }
+  redisClient = createClient({ url: process.env.REDIS_URL })
+  redisClient.on('error', (err)=> console.error('Redis error:', err))
+  await redisClient.connect()
+  return redisClient
+}
 
 // Post new entry to Slack
 async function postToSlack(entry){
@@ -39,82 +51,86 @@ async function postToSlack(entry){
 
 async function read(){
   try{
-    console.log('KV read: attempting to fetch from key:', ENTRIES_KEY)
-    // Get all entries from KV
-    const list = await kv.lrange(ENTRIES_KEY, 0, -1)
-    console.log('KV read: received', list ? list.length : 'null', 'entries, type:', typeof list)
-    console.log('KV read: first entry sample:', list && list[0] ? JSON.stringify(list[0]).substring(0, 100) : 'none')
-    return list || []
+    const client = await getRedis()
+    const list = await client.lRange(ENTRIES_KEY, 0, -1)
+    const parsed = (list || []).map(item => {
+      try{ return JSON.parse(item) }catch(_e){ return null }
+    }).filter(Boolean)
+    console.log('Redis read:', parsed.length, 'entries')
+    return parsed
   }catch(e){ 
-    console.error('KV read error:', e.message, e.stack)
+    console.error('Redis read error:', e.message, e.stack)
     return [] 
   }
 }
 
 async function addEntry(entry){
   try{
-    console.log('KV write: attempting to store entry:', entry.id)
-    // Add new entry to the front of the list
-    // Store as JSON object (KV handles serialization)
-    const result = await kv.lpush(ENTRIES_KEY, entry)
-    console.log('KV write success: lpush returned', result, 'for entry:', entry.id)
+    const client = await getRedis()
+    await client.lPush(ENTRIES_KEY, JSON.stringify(entry))
+    console.log('Redis write success for entry:', entry.id)
   }catch(e){
-    console.error('KV write error:', e.message, e.stack)
+    console.error('Redis write error:', e.message, e.stack)
     throw e
   }
 }
 
 export default async function handler(req, res){
-  console.log(`[${new Date().toISOString()}] ${req.method} /api/entries`)
-  
-  if(req.method === 'GET'){
-    console.log('GET: fetching entries...')
-    const list = await read()
-    console.log(`GET: returning ${list.length} entries`)
-    // newest first
-    list.sort((a,b)=> new Date(b.created_at) - new Date(a.created_at))
-    return res.status(200).json(list)
-  }
-
-  if(req.method === 'POST'){
-    try{
-      console.log('POST: received body:', JSON.stringify(req.body))
-      const { type, targetName, message } = req.body
-      if(!type || !message) {
-        console.error('POST: missing type or message')
-        return res.status(400).json({ error: 'type and message required' })
-      }
-
-      const allowed = ['compliments','confessions','captions']
-      if(!allowed.includes(type)) {
-        console.error(`POST: invalid type "${type}"`)
-        return res.status(400).json({ error: 'invalid type' })
-      }
-
-      console.log(`POST: creating ${type} entry`)
-      const entry = {
-        id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(),
-        type,
-        targetName: targetName || null,
-        message: String(message).slice(0,1000),
-        created_at: new Date().toISOString()
-      }
-      console.log('POST: writing entry to KV...')
-      await addEntry(entry)
-      console.log('POST: entry written successfully')
-      
-      // post to Slack async (don't wait for response)
-      console.log('POST: sending to Slack...')
-      postToSlack(entry).catch(e => console.error('Slack post error:', e))
-      
-      console.log('POST: responding with 201')
-      return res.status(201).json(entry)
-    }catch(e){
-      console.error('POST: error:', e.message, e.stack)
-      return res.status(500).json({ error: 'server error' })
+  try {
+    console.log(`[${new Date().toISOString()}] ${req.method} /api/entries`)
+    
+    if(req.method === 'GET'){
+      console.log('GET: fetching entries...')
+      const list = await read()
+      console.log(`GET: returning ${list.length} entries`)
+      // newest first
+      list.sort((a,b)=> new Date(b.created_at) - new Date(a.created_at))
+      return res.status(200).json(list)
     }
-  }
 
-  res.setHeader('Allow', 'GET,POST')
-  res.status(405).end('Method Not Allowed')
+    if(req.method === 'POST'){
+      try{
+        console.log('POST: received body:', JSON.stringify(req.body))
+        const { type, targetName, message } = req.body
+        if(!type || !message) {
+          console.error('POST: missing type or message')
+          return res.status(400).json({ error: 'type and message required' })
+        }
+
+        const allowed = ['compliments','confessions','captions']
+        if(!allowed.includes(type)) {
+          console.error(`POST: invalid type "${type}"`)
+          return res.status(400).json({ error: 'invalid type' })
+        }
+
+        console.log(`POST: creating ${type} entry`)
+        const entry = {
+          id: (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(),
+          type,
+          targetName: targetName || null,
+          message: String(message).slice(0,1000),
+          created_at: new Date().toISOString()
+        }
+        console.log('POST: writing entry to KV...')
+        await addEntry(entry)
+        console.log('POST: entry written successfully')
+        
+        // post to Slack async (don't wait for response)
+        console.log('POST: sending to Slack...')
+        postToSlack(entry).catch(e => console.error('Slack post error:', e))
+        
+        console.log('POST: responding with 201')
+        return res.status(201).json(entry)
+      }catch(e){
+        console.error('POST: error:', e.message, e.stack)
+        return res.status(500).json({ error: 'server error', details: e.message })
+      }
+    }
+
+    res.setHeader('Allow', 'GET,POST')
+    res.status(405).end('Method Not Allowed')
+  } catch(e) {
+    console.error('HANDLER ERROR:', e.message, e.stack)
+    return res.status(500).json({ error: 'handler error', details: e.message })
+  }
 }
