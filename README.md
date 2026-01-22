@@ -6,25 +6,25 @@ Quick local run
 
 ```bash
 npm install
-# start dev server (default port 3000)
+# start dev server (default port 3002)
 npm run dev
 ```
 
-If port 3000 is already in use, Next will pick another port (3001, 3002...). To explicitly run on a different port:
+If you need to explicitly run on a different port:
 
 ```bash
-PORT=3001 npm run dev
+PORT=3003 npm run dev
 ```
 
 Dev-server troubleshooting
 
-- If you see "Port 3000 is in use" or an error about `.next/dev/lock`:
+- If you see "Port 3002 is in use" or an error about `.next/dev/lock`:
 
 	1. Find the process and kill it:
 		 ```bash
-		 ss -ltnp | grep 3000
+		 ss -ltnp | grep 3002
 		 # or
-		 lsof -i :3000
+		 lsof -i :3002
 		 kill <PID>
 		 ```
 
@@ -85,3 +85,43 @@ Next actions I can take
 - Add QR-code generation and a printable PDF with the three QR codes for the event.
 
 Tell me which next step you want and I'll implement it.
+
+## Deployment & Releasing
+
+### Deploy to Vercel (live.napanext.co)
+
+- **Prerequisites**:
+  - Node.js 18+ and npm
+  - Vercel account/team access
+  - CLI: `npm i -g vercel` (or run `npm run setup`)
+
+- **One-time setup**:
+  1. **Login**: `npm run vercel:login`
+  2. **Link**: `npm run vercel:link && npm run vercel:pull`
+  3. **Domain**: `npm run vercel:domain:add`
+  4. **DNS**: Ensure CNAME `live` points to `cname.vercel-dns.com`.
+  5. **Verify**: `npm run vercel:domain:inspect`
+
+- **Deploying**:
+  - **Preview**: `npm run deploy:preview` (deploys to a unique URL for testing)
+  - **Production**: `npm run deploy:prod` (deploys to `live.napanext.co`)
+
+- **Operations**:
+  - **Logs**: `npm run logs`
+  - **Cleanup**: `npm run clear` (clears entries from Redis/KV)
+
+### Releasing a New Version
+
+1. **Commit changes**: Ensure all your changes are committed to git.
+2. **Bump version**: Update the `version` in `package.json`.
+   ```bash
+   npm version patch # or minor, or major
+   ```
+3. **Push tags**:
+   ```bash
+   git push origin main --tags
+   ```
+4. **Deploy**:
+   ```bash
+   npm run deploy:prod
+   ```

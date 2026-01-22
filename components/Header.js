@@ -11,7 +11,7 @@ export default function Header(){
         <Link href={`/${queryString}`} style={{display:'flex',alignItems:'center',gap:12}}>
           <img src="/logo.svg" alt="Cx3" className="logo" />
           <div style={{display:'flex',flexDirection:'column'}}>
-            <span className="mono" style={{fontSize:18}}>Napa Next™ at The River Club</span>
+            <span className="mono" style={{fontSize:18}}>Napa Next LLC at The Napa Valley Car Club</span>
             <small style={{color:'var(--muted)',fontSize:12}}>Compliments · Confessions · Captions</small>
           </div>
         </Link>

@@ -56,3 +56,4 @@ dist/
 # Remove this line if you want `data/entries.json` committed to the repo
 data/entries.json
 
+.env*.local

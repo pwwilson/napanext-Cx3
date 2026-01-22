@@ -4,13 +4,22 @@ const ENTRIES_KEY = 'entries'
 let redisClient = null
 
 async function getRedis(){
-  if(redisClient) return redisClient
-  if(!process.env.REDIS_URL){
-    throw new Error('REDIS_URL is not configured')
+  if(redisClient && redisClient.isOpen) return redisClient
+  const url = process.env.NAPA_REDIS_URL || process.env.REDIS_URL || process.env.KV_URL
+  if(!url){
+    throw new Error('NAPA_REDIS_URL/REDIS_URL/KV_URL is not configured')
   }
-  redisClient = createClient({ url: process.env.REDIS_URL })
-  redisClient.on('error', (err)=> console.error('Redis error:', err))
-  await redisClient.connect()
+  console.log('Connecting to Redis...')
+  const client = createClient({ 
+    url,
+    socket: {
+      connectTimeout: 5000,
+      keepAlive: 5000,
+    }
+  })
+  client.on('error', (err)=> console.error('Redis error:', err))
+  await client.connect()
+  redisClient = client
   return redisClient
 }
 
@@ -43,7 +52,12 @@ async function postToSlack(entry){
         }
       ]
     }
-    const res = await fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    const res = await fetch(webhookUrl, { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(4000)
+    })
     if(!res.ok) console.warn('Slack post failed:', res.status, await res.text())
     else console.log('Slack post sent successfully')
   }catch(e){ console.error('Slack post error:', e.message, e.stack) }
@@ -117,7 +131,11 @@ export default async function handler(req, res){
         
         // post to Slack async (don't wait for response)
         console.log('POST: sending to Slack...')
-        postToSlack(entry).catch(e => console.error('Slack post error:', e))
+        if(process.env.SLACK_WEBHOOK_URL) {
+          postToSlack(entry).catch(e => console.error('Slack post error:', e))
+        } else {
+          console.log('POST: skipping Slack (no webhook configured)')
+        }
         
         console.log('POST: responding with 201')
         return res.status(201).json(entry)

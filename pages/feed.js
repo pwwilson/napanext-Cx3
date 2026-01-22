@@ -9,6 +9,8 @@ export default function Feed(){
   const containerRef = useRef(null)
   const wrapperRef = useRef(null)
   const [isFs, setIsFs] = useState(false)
+  const videos = ['/napalapse.mp4', '/yeti_and_bee.mp4']
+  const [videoIdx, setVideoIdx] = useState(0)
 
   useEffect(()=>{
     let mounted = true
@@ -65,11 +67,23 @@ export default function Feed(){
 
       <div ref={wrapperRef} className="container feed-container" style={{position:'relative'}}>
         {/* Background video (full-bleed) */}
-        <video className="feed-bg-video" src="/turntable1.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
+        <video 
+          key={videos[videoIdx]}
+          className="feed-bg-video" 
+          autoPlay 
+          muted 
+          playsInline 
+          preload="auto" 
+          aria-hidden="true"
+          onEnded={() => setVideoIdx((videoIdx + 1) % videos.length)}
+        >
+          <source src={videos[videoIdx]} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="bg-dim" aria-hidden="true"></div>
         <div className="feed-header">
           <div className="card feed-title">
-            <h1 className="mono">Party Feed at The River Club</h1>
+            <h1 className="mono">Party Feed at The Barn</h1>
           </div>
         </div>
 

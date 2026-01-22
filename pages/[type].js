@@ -19,7 +19,7 @@ const TYPE_META = {
   captions: {
     title: 'Caption This',
     subtitle: 'Caption the photo on the screen',
-    description: 'What AI prompt do you think Patrick used to generate the Eventbrite banner for this party? Wrong answers only.',
+    description: 'What would you like to see NNED do Next?',
     fields: ['message'],
     submit: 'Submit caption'
   }
@@ -54,13 +54,20 @@ export default function TypePage(){
     const body = { type, message }
     if(type === 'compliments') body.targetName = targetName
 
-    const res = await fetch('/api/entries', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify(body) })
-    if(res.ok){ setStatus('sent'); setMessage(''); setTargetName('') }
-    else { setStatus('error') }
-    try{
-      if(res.ok){ showPopup('Sent - thanks!', 'success', 3000) }
-      else { showPopup('Could not send - try again', 'error', 5000) }
-    }catch(e){ showPopup('Network error', 'error', 5000) }
+    try {
+      const res = await fetch('/api/entries', { method: 'POST', headers: { 'content-type':'application/json' }, body: JSON.stringify(body) })
+      if(res.ok){ 
+        setStatus('sent'); setMessage(''); setTargetName('');
+        showPopup('Sent - thanks!', 'success', 3000)
+      } else { 
+        const errData = await res.json().catch(()=>({}))
+        setStatus('error');
+        showPopup(errData.error ? `Error: ${errData.error}` : 'Could not send - try again', 'error', 5000)
+      }
+    } catch(e) {
+      setStatus('error')
+      showPopup('Network error - check connection', 'error', 5000)
+    }
   }
 
   return (

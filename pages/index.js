@@ -42,8 +42,8 @@ export default function Home(){
       </div>
 
       <div className="card">
-        <h3>Thank you for attending!</h3>
-        <p>We're looking forward to also seeing you at the next Napa Next event 1/22 at the Napa Valley Car Club! 🏎️</p>
+        <h3>Stay Connected</h3>
+        <p><a href="https://napanext.slack.com/join/shared_invite/zt-3itkpi1z6-sN0EwV92otr5tjsr76nZaw" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Join us on Slack</a> to find out about our future events and continue the conversation!</p>
       </div>
     </div>
   )
