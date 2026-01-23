@@ -5,9 +5,9 @@ let redisClient = null
 
 async function getRedis(){
   if(redisClient && redisClient.isOpen) return redisClient
-  const url = process.env.NAPA_REDIS_URL || process.env.REDIS_URL || process.env.KV_URL
+  const url = process.env.NAPA__REDIS_URL || process.env.NAPA_REDIS_URL || process.env.REDIS_URL || process.env.KV_URL
   if(!url){
-    throw new Error('NAPA_REDIS_URL/REDIS_URL/KV_URL is not configured')
+    throw new Error('NAPA__REDIS_URL/NAPA_REDIS_URL/REDIS_URL/KV_URL is not configured')
   }
   console.log('Connecting to Redis...')
   const client = createClient({ 
