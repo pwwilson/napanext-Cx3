@@ -1,6 +1,6 @@
 # napanext-Cx3
 
-Minimal Next.js app for the "Cx3" event: Compliments · Confessions · Captions.
+Minimal Next.js app for a 50th Birthday Party event: Compliments · Confessions · Captions.
 
 Quick local run
 

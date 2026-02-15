@@ -19,7 +19,7 @@ const TYPE_META = {
   captions: {
     title: 'Caption This',
     subtitle: 'Caption the photo on the screen',
-    description: 'What would you like to see NNED do Next?',
+    description: 'What are they thinking?',
     fields: ['message'],
     submit: 'Submit caption'
   }

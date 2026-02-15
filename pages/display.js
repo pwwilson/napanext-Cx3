@@ -25,7 +25,7 @@ export default function Display(){
 
   return (
     <div style={{padding:20}}>
-      <h1 className="mono">Cx3 Live</h1>
+      <h1 className="mono">Party Live</h1>
       <div className="columns">
         <div className="col card">
           <h3>Compliments</h3>

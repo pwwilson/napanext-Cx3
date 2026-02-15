@@ -5,6 +5,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <title>50th Birthday Party</title>
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
           <meta name="theme-color" content="#0f172a" />
           <meta name="robots" content="noindex, nofollow" />

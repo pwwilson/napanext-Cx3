@@ -9,9 +9,9 @@ export default function Header(){
     <header className="site-header">
       <div className="container" style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:0}}>
         <Link href={`/${queryString}`} style={{display:'flex',alignItems:'center',gap:12}}>
-          <img src="/logo.svg" alt="Cx3" className="logo" />
+          <img src="/logo.svg" alt="Birthday Party" className="logo" />
           <div style={{display:'flex',flexDirection:'column'}}>
-            <span className="mono" style={{fontSize:18}}>Napa Next LLC at The Napa Valley Car Club</span>
+            <span className="mono" style={{fontSize:18}}>50th Birthday Party</span>
             <small style={{color:'var(--muted)',fontSize:12}}>Compliments · Confessions · Captions</small>
           </div>
         </Link>

@@ -19,7 +19,7 @@ export default function Home(){
   return (
     <div className="container">
       <h1 className="mono" style={{ fontSize: '28px', lineHeight: '1.3', marginBottom: '8px' }}>
-        Share Your Thoughts
+        50th Birthday Party
       </h1>
       <p className="card" style={{ marginBottom: '24px' }}>Celebrate with compliments, confessions, and creative captions - all displayed live on the big screen.</p>
 
@@ -42,8 +42,8 @@ export default function Home(){
       </div>
 
       <div className="card">
-        <h3>Stay Connected</h3>
-        <p><a href="https://napanext.slack.com/join/shared_invite/zt-3itkpi1z6-sN0EwV92otr5tjsr76nZaw" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Join us on Slack</a> to find out about our future events and continue the conversation!</p>
+        <h3>Share the memories</h3>
+        <p>Keep the party going and share your favorite photos from tonight with the birthday group!</p>
       </div>
     </div>
   )
