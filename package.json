@@ -18,12 +18,13 @@
     "logs": "vercel logs -f live.napanext.co"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/kv": "^3.0.0",
-    "redis": "^4.6.7",
     "dotenv": "^16.0.0",
     "next": "^16.0.10",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "redis": "^4.6.7"
   },
   "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d"
 }
